@@ -1,0 +1,6 @@
+{
+  "name": "Multimodal Spatial Speech Intelligence Research Lab",
+  "description": "Researching the interaction between audio, visual, and spatial information for robust speech processing in multi-speaker physical environments.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
