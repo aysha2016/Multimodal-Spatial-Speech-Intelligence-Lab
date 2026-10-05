@@ -5,6 +5,7 @@ import {defineConfig} from 'vite';
 
 export default defineConfig(() => {
   return {
+    base: '/Multimodal-Spatial-Speech-Intelligence-Lab/',
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
