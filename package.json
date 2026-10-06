@@ -10,8 +10,8 @@
     "dev": "tsx server.ts",
     "prestart": "vite build",
     "start": "node server.ts",
-    "build": "vite build",
-    "gcp-build": "vite build",
+    "build": "vite build && cp dist/index.html dist/404.html && rm -rf docs && cp -r dist docs",
+    "gcp-build": "vite build && cp dist/index.html dist/404.html && rm -rf docs && cp -r dist docs",
     "preview": "vite preview",
     "clean": "rm -rf dist server.js",
     "lint": "tsc --noEmit"
