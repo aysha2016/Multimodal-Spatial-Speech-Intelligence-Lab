@@ -3,9 +3,10 @@
  * Full-Stack Express Server with Gemini Multimodal Reasoning Engine
  */
 
-import express, { Request, Response } from 'express';
-import { createServer as createViteServer } from 'vite';
+import express from 'express';
+import type { Request, Response } from 'express';
 import path from 'path';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
 import { GoogleGenAI } from '@google/genai';
 import dotenv from 'dotenv';
@@ -162,12 +163,36 @@ Instructions:
   });
 
   // Serve static assets or mount Vite dev server
-  if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.resolve(__dirname, 'dist')));
+  const distPath = path.resolve(__dirname, 'dist');
+  const distIndex = path.join(distPath, 'index.html');
+  let hasDist = fs.existsSync(distIndex);
+
+  const isProduction = process.env.NODE_ENV === 'production' || (process.env.NODE_ENV !== 'development' && hasDist);
+
+  if (isProduction) {
+    if (!hasDist) {
+      console.log('Production mode active but dist/index.html not found. Building client assets now...');
+      try {
+        const { execSync } = await import('child_process');
+        execSync('npx vite build', { stdio: 'inherit' });
+        hasDist = fs.existsSync(distIndex);
+      } catch (buildErr) {
+        console.error('Failed to auto-build client assets:', buildErr);
+      }
+    }
+
+    // Serve static files from root and also handle legacy base path if requested
+    app.use('/Multimodal-Spatial-Speech-Intelligence-Lab', express.static(distPath));
+    app.use(express.static(distPath));
     app.get('*', (_req: Request, res: Response) => {
-      res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
+      if (fs.existsSync(distIndex)) {
+        res.sendFile(distIndex);
+      } else {
+        res.status(200).send(`<!DOCTYPE html><html><head><title>Loading Lab...</title><meta http-equiv="refresh" content="2"></head><body style="font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;background:#f8fafc;"><div style="text-align:center;"><h2>Initializing Multimodal Research Lab...</h2><p>Assets are compiling, page will refresh automatically.</p></div></body></html>`);
+      }
     });
   } else {
+    const { createServer: createViteServer } = await import('vite');
     const vite = await createViteServer({
       server: {
         middlewareMode: true,
