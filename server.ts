@@ -167,7 +167,10 @@ Instructions:
   const distIndex = path.join(distPath, 'index.html');
   let hasDist = fs.existsSync(distIndex);
 
-  const isProduction = process.env.NODE_ENV === 'production' || (process.env.NODE_ENV !== 'development' && hasDist);
+  const isProduction =
+    process.env.NODE_ENV === 'production' ||
+    process.env.npm_lifecycle_event === 'start' ||
+    (process.env.npm_lifecycle_event !== 'dev' && hasDist);
 
   if (isProduction) {
     if (!hasDist) {
@@ -181,8 +184,9 @@ Instructions:
       }
     }
 
-    // Serve static files from root and also handle legacy base path if requested
+    // Serve static files from root, docs, and handle legacy repository base path
     app.use('/Multimodal-Spatial-Speech-Intelligence-Lab', express.static(distPath));
+    app.use('/docs', express.static(distPath));
     app.use(express.static(distPath));
     app.get('*', (_req: Request, res: Response) => {
       if (fs.existsSync(distIndex)) {

@@ -16,6 +16,21 @@
   <body class="bg-slate-50 text-slate-900 antialiased selection:bg-cyan-500/20 selection:text-cyan-900">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      // Fallback for static GitHub Pages deployments:
+      // If deployed directly from the repository root where raw /src/main.tsx cannot run natively in browsers,
+      // redirect immediately to /docs/ where the compiled production build is published.
+      if (window.location.hostname.indexOf('github.io') !== -1 && window.location.pathname.indexOf('/docs') === -1) {
+        setTimeout(function() {
+          var root = document.getElementById('root');
+          if (!root || root.children.length === 0) {
+            var path = window.location.pathname;
+            if (!path.endsWith('/')) path += '/';
+            window.location.replace(path + 'docs/' + window.location.search + window.location.hash);
+          }
+        }, 150);
+      }
+    </script>
   </body>
 </html>
 

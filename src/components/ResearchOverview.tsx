@@ -7,7 +7,7 @@ import React from 'react';
 import {
   RESEARCH_QUESTIONS,
   RESEARCH_HYPOTHESES,
-} from '../types/../utils/researchData';
+} from '../utils/researchData';
 import {
   Mic,
   Video,
