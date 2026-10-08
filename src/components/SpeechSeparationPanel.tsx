@@ -104,8 +104,8 @@ export const SpeechSeparationPanel: React.FC<SpeechSeparationPanelProps> = ({
 
     audioSynthesizer.playSeparationExperiment(
       track,
-      spkA?.referenceTranscript || 'Please bring the package from room three.',
-      spkB?.referenceTranscript || 'Can you review the quarterly research results?',
+      spkA?.referenceTranscript || 'Please bring the calibration package from room three.',
+      spkB?.referenceTranscript || 'Verify that the microphone array spacing is four centimeters.',
       noise.type,
       noise.snrDb,
       () => {

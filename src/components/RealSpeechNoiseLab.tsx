@@ -92,7 +92,8 @@ export const RealSpeechNoiseLab: React.FC<RealSpeechNoiseLabProps> = ({
       spk.referenceTranscript,
       voiceName,
       spk.voiceProfile.f0Hz,
-      () => setPlayingItem(null)
+      () => setPlayingItem(null),
+      spk.id
     );
   };
 
